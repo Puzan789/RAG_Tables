@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, UploadFile, File
 from fastapi.responses import JSONResponse
 from src.questionanswer.chunking import DocumentChunker
 from src.questionanswer.qdrant_db import QdrantConfig
-from src.questionanswer.schemas import UploadChunkSchema
+from src.questionanswer.schemas import UploadChunkSchema, UserInputSchema
 from fastapi import HTTPException
 from src.questionanswer.workflow import create_workflow
 
@@ -57,9 +57,9 @@ async def upload_chunk(request: UploadChunkSchema):
 
 
 @router.post("/chat")
-async def chat_with_user(query: str):
+async def chat_with_user(request: UserInputSchema):
     try:
-        initial_query = {"question": query}
+        initial_query = {"question": request.question}
         response = workflow.invoke(initial_query)
         return JSONResponse(
             status_code=status.HTTP_200_OK,
