@@ -11,3 +11,7 @@ class GraphState(TypedDict):
 class UploadChunkSchema(BaseModel):
     summaries: list
     metadata: list
+
+
+class UserInputSchema(BaseModel):
+    question: str
